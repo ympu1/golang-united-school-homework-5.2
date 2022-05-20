@@ -35,6 +35,8 @@ func (c *Cache) Keys() []string {
 func (c *Cache) PutTill(key, value string, deadline time.Time) {
 	c.m[key] = value
 
-	time.Sleep(time.Until(deadline))
-	delete(c.m, key)
+	go func() {
+		time.Sleep(time.Until(deadline))
+		delete(c.m, key)
+	}()
 }
